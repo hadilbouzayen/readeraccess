@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "readers-jvap-client-side-solution",
+    "id": "3262121c-1848-4fb2-94e7-d845f75aa837",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.19.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "readers-jvap description"
+      },
+      "longDescription": {
+        "default": "readers-jvap description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "readers-jvap Feature",
+        "description": "The feature that activates elements of the readers-jvap solution.",
+        "id": "2b487906-b0fd-4cc0-b86d-39dfc91d6343",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/readers-jvap.sppkg"
+  }
+}
