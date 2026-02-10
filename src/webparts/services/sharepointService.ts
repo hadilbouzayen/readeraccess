@@ -42,11 +42,27 @@ export const filterFocalPointList = async (email: string): Promise<any> => {
   const _sp: SPFI = getSP();
   try {
     const results = await _sp.web.lists
-      .getByTitle("Focal Point")
-      .items.filter(`Email eq '${email}'`)
-      .select("Id", "Title", "Email", "Country", "Organisation")();
+      .getByTitle("FocalPointList")
+      .items.filter(`field_1 eq '${email}'`) // Assuming field_1 is Email based on previous context, user didn't confirm but code suggests it. Wait, previous grep showed field_1. Let's stick to what we saw in AssignToFocalPoint: field_1.
+      .select("Id", "Title", "field_1", "field_2", "field_5")(); // Title (Name?), field_1 (Email), field_2 (Partner/Country?), field_5 (Organisation?)
 
-    return results.length > 0 ? results[0] : null; // Return the first match or null if not found
+    // Mapping to match ContactCard expectation if needed, or just return as is and let component handle it.
+    // ContactCard expects: userInfo.focalPointResult.Title, .Country, .Email, .Organisation
+    // Let's assume:
+    // Title -> Title
+    // field_1 -> Email
+    // field_2 -> Country (Partner)
+    // field_5 -> Organisation
+
+    if (results.length > 0) {
+      return {
+        Title: results[0].Title,
+        Email: results[0].field_1,
+        Country: results[0].field_2,
+        Organisation: results[0].field_5
+      };
+    }
+    return null;
   } catch (error) {
     console.error("Error fetching Focal Point:", error);
     throw error;
@@ -57,12 +73,9 @@ export const filterFocalPointList = async (email: string): Promise<any> => {
 export const getAllFocalPoints = async (): Promise<any[]> => {
   const _sp: SPFI = getSP();
   try {
-    // Fetch all fields for debugging purposes
     const results = await _sp.web.lists
       .getByTitle("FocalPointList")
-      .items();
-
-    console.log("All Focal Points Fields:", results);
+      .items.select("Id", "Title", "field_1", "field_2", "field_5")();
 
     return results;
   } catch (error) {

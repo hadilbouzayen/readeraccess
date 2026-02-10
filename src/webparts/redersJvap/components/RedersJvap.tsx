@@ -6,7 +6,8 @@ import { useLanguage } from '../../services/LanguageContext';
 import { Backdrop, Badge, Box, Button, Checkbox, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, InputLabel, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ToggleButton, ToggleButtonGroup, Toolbar, Typography } from '@mui/material';
 import Notification from "./Notification";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { acceptReaders, assignFocalPointToReaders, deleteReaders, getAllReaders, rejectReaders } from '../../services/sharepointService';
+import ContactCard from './contactCard';
+import { acceptReaders, assignFocalPointToReaders, deleteReaders, getAllReaders, rejectReaders, filterFocalPointList } from '../../services/sharepointService';
 import AssignToFocalPoint from './AssignToFocalPoint';
 import { FilterAlt, FilterAltOff, RestartAlt } from '@mui/icons-material';
 import ConfirmationDialog from './ConfirmationDialog';
@@ -59,6 +60,35 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
   const [filteredReaders, setFilteredReaders] = useState<any[]>([]);
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [showFilters, setShowFilters] = useState(false);
+
+  // Focal Point Details State
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [pendingCount, setPendingCount] = useState(0);
+  const [rejectedCount, setRejectedCount] = useState(0);
+  const [approvedCount, setApprovedCount] = useState(0);
+
+  useEffect(() => {
+    const fetchFocalPointInfo = async () => {
+      if (isFocalPoint) {
+        try {
+          const data = await filterFocalPointList(currentUser.Email);
+          setUserInfo({ focalPointResult: data });
+        } catch (error) {
+          console.error("Error fetching focal point details:", error);
+        }
+      }
+    };
+    fetchFocalPointInfo();
+  }, [isFocalPoint, currentUser.Email]);
+
+  // Calculate counts based on readers status
+  useEffect(() => {
+    if (readers) {
+      setPendingCount(readers.filter(r => r.Status === 'Pending').length);
+      setRejectedCount(readers.filter(r => r.Status === 'Rejected').length);
+      setApprovedCount(readers.filter(r => r.Status === 'Accepted').length);
+    }
+  }, [readers]);
 
 
   const readersColumns = [
@@ -115,6 +145,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
       })
       .finally(() => setLoading(false));
   }, [isFocalPoint, isAdmin]);
+
 
 
 
@@ -382,7 +413,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
         <CircularProgress color="inherit" />
       </Backdrop>
       {/* Top bar */}
-      <Box
+      {/* <Box
         sx={{
           width: "100%",
           display: "flex",
@@ -390,7 +421,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
           mb: 2, // margin bottom for spacing
         }}
       >
-        {/* Back Button with Arrow */}
+    
         <Box display="flex" alignItems="left" mb={2} sx={{ gap: "8px" }}>
           <Button
             sx={{
@@ -407,7 +438,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
             href={isAdmin ? "https://jvap.sharepoint.com/sites/ICMPD/SitePages/Admin.aspx" : "https://jvap.sharepoint.com/sites/ICMPD/SitePages/Initiatives.aspx"}
           >
             <ArrowBackIcon sx={{ mr: 1, fontSize: "1rem" }} />
-            {/* Adjust the icon size if needed */}
+           
             {translations.action.back}
           </Button>
 
@@ -419,7 +450,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
             width: "80%",
             display: "flex",
             justifyContent: "flex-end",
-            mb: 2, // margin bottom for spacing
+            mb: 2, 
           }}
         >
           <ToggleButtonGroup
@@ -456,7 +487,28 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
-      </Box>
+      </Box> */}
+
+
+      {/* Contact Card for Focal Point or Admin */}
+      {((isFocalPoint && userInfo) || (isAdmin && currentUser)) && (
+        <ContactCard
+          isFP={isFocalPoint}
+          isC={false}
+          userInfo={isFocalPoint ? userInfo : currentUser}
+
+
+          pendingCount={pendingCount}
+          rejectedCount={rejectedCount}
+          approvedCount={approvedCount}
+          setTriggerNotif={() => { }} // dummy for now
+          datalenth={0} // dummy
+          language={language}
+          onLanguageChange={setLanguage}
+          translations={translations}
+          isAdmin={isAdmin}
+        />
+      )}
 
 
 

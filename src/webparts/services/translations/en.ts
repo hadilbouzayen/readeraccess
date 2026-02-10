@@ -11,7 +11,26 @@ export const card = {
   areYouSure: "Are you sure you want to delete this/these item(s)",
   EditContributor: "Edit Contributor",
   accessDinied: "Access Denied: You do not have the required permissions.",
-
+  Purpose: "This page is for the management of persons who have requested access to the JVAP Data Browser or Dashboard. Granting approval does not give them access to the data collection site or any unpublished data. You may remove access at any time.",
+  FullName: "Full Name",
+  Partner: "Partner",
+  Role: "Role",
+  RoleCont: "Contributor",
+  RoleFocal: "Focal Point",
+  // Email: "Email", // Already exists as Emailisrequired? No, lint says Email missing on type. Wait. Emailisrequired is there. Email is NOT.
+  Email: "Email",
+  Organisation: "Organisation",
+  FocalPoint: "Focal Point",
+  contributors: "Contributors",
+  notifyFocal: "Notify Focal Point",
+  notifyJVAP: "Notify JVAP",
+  instructions: "Instructions",
+  PendingInitiatives: "Pending Initiatives",
+  RejectedInitiatives: "Rejected Initiatives",
+  ApprovedInitiatives: "Approved Initiatives",
+  PendingReaders: "Pending Readers",
+  RejectedReaders: "Rejected Readers",
+  ApprovedReaders: "Approved Readers",
 };
 
 export const action = {
