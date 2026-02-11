@@ -190,10 +190,10 @@ const ContactCard: React.FC<ContactCardProps> = ({
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600, lineHeight: 1.2, color: "text.primary" }}>
-                {userName || "User"}
+                {userName || "--"}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {userEmail || "email@example.com"}
+                {userEmail || "--"}
               </Typography>
               <Chip
                 label={isAdmin ? "Administrator" : (isFP ? "Focal Point" : "Contributor")}
@@ -250,11 +250,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
           </Box>
         </Box>
 
-        {isFP && (
-          <Typography variant="body2" sx={{ mt: 2, color: "text.secondary", maxWidth: "800px", lineHeight: 1.6 }}>
-            {translations?.card?.Purpose || "This page is for the management of persons who have requested access to the JVAP Data Browser or Dashboard. Granting approval does not give them access to the data collection site or any unpublished data. You may remove access at any time."}
-          </Typography>
-        )}
+
       </Box>
 
       {/* Body */}
@@ -269,9 +265,9 @@ const ContactCard: React.FC<ContactCardProps> = ({
         >
           {/* Left: Details */}
           <Box sx={{ borderRight: { md: "1px solid rgba(0,0,0,0.12)" }, pr: { md: 2 } }}>
-            <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+            <Box sx={{ display: "grid", gridTemplateColumns: "1fr", gap: 2 }}>
               <Box>
-                <Typography variant="caption" sx={{ textTransform: "uppercase", fontWeight: 700, color: "text.secondary", letterSpacing: "0.05em" }}>
+                <Typography variant="body2" sx={{ textTransform: "uppercase", fontWeight: 700, color: "text.primary", letterSpacing: "0.05em", opacity: 0.7 }}>
                   {translations?.card?.Partner || "Partner"}
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 500, mt: 0.5, color: "text.primary" }}>
@@ -279,7 +275,7 @@ const ContactCard: React.FC<ContactCardProps> = ({
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="caption" sx={{ textTransform: "uppercase", fontWeight: 700, color: "text.secondary", letterSpacing: "0.05em" }}>
+                <Typography variant="body2" sx={{ textTransform: "uppercase", fontWeight: 700, color: "text.primary", letterSpacing: "0.05em", opacity: 0.7 }}>
                   {translations?.card?.Organisation || "Organisation"}
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 500, mt: 0.5, color: "text.primary" }}>
@@ -287,6 +283,11 @@ const ContactCard: React.FC<ContactCardProps> = ({
                 </Typography>
               </Box>
             </Box>
+            {isFP && (
+              <Typography variant="body2" sx={{ mt: 4, color: "text.secondary", maxWidth: "800px", lineHeight: 1.6 }}>
+                {translations?.card?.Purpose || "This page is for the management of persons who have requested access to the JVAP Data Browser or Dashboard. Granting approval does not give them access to the data collection site or any unpublished data. You may remove access at any time."}
+              </Typography>
+            )}
           </Box>
 
           {/* Right: Status Cards */}
