@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SPFI } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/site-groups";

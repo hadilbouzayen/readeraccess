@@ -7,14 +7,12 @@ import {
   Paper,
   Chip,
   IconButton,
-  Tooltip
+
 } from "@mui/material";
 import {
   Autorenew as RefreshCw,
   Close as X,
   CheckCircle as CheckCheck,
-  Send,
-  Language as LanguageIcon,
   ArrowBack
 } from "@mui/icons-material";
 
@@ -43,7 +41,7 @@ const StatusCard = ({
   label: string;
   count: number;
   variant: "pending" | "rejected" | "approved";
-}) => {
+}): JSX.Element => {
   const styles = {
     pending: {
       bgcolor: "rgb(255, 248, 225)", // yellow-50 equivalent

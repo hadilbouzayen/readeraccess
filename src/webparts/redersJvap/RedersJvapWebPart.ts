@@ -55,4 +55,8 @@ export default class RedersJvapWebPart extends BaseClientSideWebPart<IRedersJvap
 
     ReactDom.render(element, this.domElement);
   }
+
+  protected onDispose(): void {
+    ReactDom.unmountComponentAtNode(this.domElement);
+  }
 }

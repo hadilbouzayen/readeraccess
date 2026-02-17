@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 
 import type { IRedersJvapProps } from './IRedersJvapProps';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../../services/LanguageContext';
-import { Backdrop, Badge, Box, Button, Checkbox, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, InputLabel, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ToggleButton, ToggleButtonGroup, Toolbar, Typography } from '@mui/material';
+import { Backdrop, Badge, Box, Button, Checkbox, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, InputLabel, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Typography } from '@mui/material';
 import Notification from "./Notification";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ContactCard from './contactCard';
 import { acceptReaders, assignFocalPointToReaders, deleteReaders, getAllReaders, rejectReaders, filterFocalPointList } from '../../services/sharepointService';
 import AssignToFocalPoint from './AssignToFocalPoint';
@@ -23,14 +24,14 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
   useEffect(() => {
     setLanguage(siteLanguage)
   }, []);
-  const handleToggleLanguageChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newLanguage: string | null
-  ) => {
-    if (newLanguage !== null) {
-      setLanguage(newLanguage);
-    }
-  };
+  // const handleToggleLanguageChange = (
+  //   event: React.MouseEvent<HTMLElement>,
+  //   newLanguage: string | null
+  // ) => {
+  //   if (newLanguage !== null) {
+  //     setLanguage(newLanguage);
+  //   }
+  // };
 
 
   // const [isFP, setIsFP] = useState(false);
@@ -78,7 +79,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
         }
       }
     };
-    fetchFocalPointInfo();
+    void fetchFocalPointInfo();
   }, [isFocalPoint, currentUser.Email]);
 
   // Calculate counts based on readers status
@@ -157,7 +158,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
 
 
 
-  const handleApprove = async (id: number) => {
+  const handleApprove = async (id: number): Promise<void> => {
     try {
       setLoading(true);
       await acceptReaders([id]);
@@ -185,7 +186,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
     }
   };
 
-  const handleReject = async (id: number) => {
+  const handleReject = async (id: number): Promise<void> => {
     try {
       setLoading(true);
       await rejectReaders([id]);
@@ -212,7 +213,8 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
   };
 
 
-  const handleDelete = async (id: number) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleDelete = async (id: number): Promise<void> => {
     try {
       setLoading(true);
       await deleteReaders([id]);
@@ -238,7 +240,8 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
     }
   };
 
-  const handleDeleteAll = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleDeleteAll = async (): Promise<void> => {
     try {
       setLoading(true);
       await deleteReaders(selectedIds);
@@ -265,7 +268,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
 
 
 
-  const handleApproveAll = async () => {
+  const handleApproveAll = async (): Promise<void> => {
     try {
       setLoading(true);
       await acceptReaders(selectedIds);
@@ -292,7 +295,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
     }
   };
 
-  const handleRejectAll = async () => {
+  const handleRejectAll = async (): Promise<void> => {
     try {
       setLoading(true);
       await rejectReaders(selectedIds);
@@ -328,7 +331,8 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
   //   // TODO: Navigate or open modal
   //   console.log("View:", id);
   // };
-  const handleAssign = async (focalPointEmail: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleAssign = async (focalPointEmail: string): Promise<void> => {
     try {
       setLoading(true);
       await assignFocalPointToReaders(selectedIds, focalPointEmail);
@@ -362,7 +366,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
   };
 
   useEffect(() => {
-    const applyFilters = () => {
+    const applyFilters = (): void => {
       const result = readers.filter((reader) => {
         return Object.entries(filters).every(([key, value]) => {
           const cellValue = (reader[key] ?? "").toString().toLowerCase();
@@ -501,7 +505,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
           pendingCount={pendingCount}
           rejectedCount={rejectedCount}
           approvedCount={approvedCount}
-          setTriggerNotif={() => { }} // dummy for now
+          setTriggerNotif={() => { /* dummy */ }} // dummy for now
           datalenth={0} // dummy
           language={language}
           onLanguageChange={setLanguage}
@@ -807,8 +811,8 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
                           multiple
                           label={label}
                           value={filters[id] ?? []}
-                          onChange={(e) => setFilters({ ...filters, [id]: e.target.value })}
-                          renderValue={(selected) => (selected as string[]).join(", ")}
+                          onChange={(e: any) => setFilters({ ...filters, [id]: e.target.value })}
+                          renderValue={(selected: any) => (selected as string[]).join(", ")}
                         >
                           {["Pending", "Accepted", "Rejected"].map((option) => (
                             <MenuItem key={option} value={option}>
@@ -826,10 +830,10 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
                             multiple
                             label={label}
                             value={filters[id] ?? []}
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFilters({ ...filters, [id]: e.target.value })
                             }
-                            renderValue={(selected) => (selected as string[]).join(", ")}
+                            renderValue={(selected: any) => (selected as string[]).join(", ")}
                           >
                             {uniqueValues.map((val) => (
                               <MenuItem key={val} value={val}>
@@ -845,7 +849,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
                           <Select
                             label={label}
                             value={filters[id] ?? ""}
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFilters({ ...filters, [id]: e.target.value })
                             }
                           >
@@ -866,7 +870,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
                           variant="outlined"
                           fullWidth
                           value={filters[id] ?? ""}
-                          onChange={(e) =>
+                          onChange={(e: any) =>
                             setFilters({ ...filters, [id]: e.target.value })
                           }
                         />
@@ -914,7 +918,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
                     selectedIds.length > 0 &&
                     selectedIds.length < filteredReaders.filter((r) => r.Status !== "Rejected" && r.Status !== "Deleted").length
                   }
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     if (e.target.checked) {
                       setSelectedIds(
                         filteredReaders
@@ -961,7 +965,7 @@ const RedersJvap: React.FC<IRedersJvapProps> = ({ siteLanguage, isAdmin, isFocal
                   <Checkbox
                     disabled={reader.status === "Rejected" || reader.status === "Deleted"}
                     checked={selectedIds.includes(reader.ID)}
-                    onChange={(e) => {
+                    onChange={(e: any) => {
                       if (e.target.checked) {
                         setSelectedIds((prev) => [...prev, reader.ID]);
                       } else {

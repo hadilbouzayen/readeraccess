@@ -19,7 +19,7 @@ export const LanguageContext = createContext<LanguageContextProps>({
 
 export const useLanguage = () => useContext(LanguageContext);
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+export const LanguageProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [language, setLanguage] = useState('en');
   const translations = language === 'en' ? en : fr;
 
